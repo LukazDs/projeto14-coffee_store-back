@@ -11,7 +11,6 @@ async function validateUser(req, res, next) {
     }
 
   res.locals.session = session;
-  console.log(session)
 
   next();
 }

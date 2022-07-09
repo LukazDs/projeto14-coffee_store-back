@@ -24,11 +24,6 @@ export async function createUser(req, res) {
             return;
         }
 
-        if (user.confirmPassword !== user.password) {
-            res.status(409).send("Erro ao confirmar senha!");
-            return;
-        }
-
         await db.collection("users").insertOne({ ...user, password: passwordHash });
 
         res.sendStatus(201);
