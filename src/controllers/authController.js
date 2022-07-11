@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
 import { registerUserSchema, loginSchema } from "../schemas/userSchemas.js";
 
-
 export async function createUser(req, res) {
 
     const user = req.body;
@@ -56,7 +55,9 @@ export async function loginUser(req, res) {
             });
 
             return res.status(201).send({ token });
+            
         } else {
+
             return res.status(401).send('Senha ou email incorretos!');
         }
     } catch (error) {
