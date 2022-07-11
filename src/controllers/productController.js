@@ -28,6 +28,42 @@ export async function putProduct(req, res) {
     }
 }
 
+export async function putAddress(req, res) {
+    
+    const body = req.body;
+
+    const session = res.locals.session;
+
+    const validation = productSchema.validate(body);
+
+    if (validation.error) {
+        return res.status(422).send("Valores inválidos!");
+    }
+
+    try {
+
+        const address = await db.collection('address').findOne({
+                _id: session.userId})
+        
+        if (address) {
+            await db.collection('address').updateOne({
+                userId: session.userId
+            }, {$set: body});
+        }
+
+        else {
+            await db.collection('address').insertOne({
+                ...body,
+                userId: session.userId})
+        }
+
+        res.status(201).send('Endereço atualizado com sucesso');
+
+    } catch (error) {
+        res.status(500).send("Erro de Requisição!")
+    }
+}
+
 export async function getProducts(_req, res) {
 
     const session = res.locals.session;
@@ -44,3 +80,4 @@ export async function getProducts(_req, res) {
         res.status(500).send("Problemas para puxar dados!");
     }
 }
+
