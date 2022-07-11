@@ -6,12 +6,8 @@ async function validateProduct(req, res, next) {
     const { authorization } = req.headers;
     const token = authorization?.replace('Bearer ', '');
 
-    console.log(body.productId)
-
     const session = await db.collection('sessions').findOne({ token });
     const infoProduct = await db.collection("coffees").findOne({ productId: body.productId });
-
-    console.log(infoProduct)
 
     if (!session) {
         return res.status(401).send("Usuário não encontrado!");
