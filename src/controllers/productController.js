@@ -27,3 +27,20 @@ export async function putProduct(req, res) {
         res.status(500).send("Erro de Requisição!")
     }
 }
+
+export async function getProducts(_req, res) {
+
+    const session = res.locals.session;
+
+    try {
+        const data = await db
+            .collection('products-user')
+            .find({ userId: session.userId })
+            .toArray();
+
+        res.send({ data });
+
+    } catch (error) {
+        res.status(500).send("Problemas para puxar dados!");
+    }
+}
